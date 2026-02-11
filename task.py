@@ -39,7 +39,11 @@ class Task():
         return self._status
     @status.setter
     def status(self, new_status):
-        self._status = new_status
+        try:
+            valid_status = Status(new_status)
+            self._status = valid_status.value
+        except ValueError:
+            raise ValueError(f"{new_status} is not valid: {[s.value for s in Status]}")
     @property
     def creation_date(self):
         return self._creation_date
@@ -57,10 +61,10 @@ class Task():
     @classmethod
     def from_dict(cls, task_data):
         return cls(
-            task_data["id"],
-            task_data["title"],
-            task_data["desc"],
-            task_data["priority"],
-            task_data["status"],
-            task_data["creation_date"]
+            title=task_data["title"],
+            desc=task_data["desc"],
+            priority=task_data["priority"],
+            status=task_data["status"],
+            creation_date=task_data["creation_date"],
+            _id=task_data["id"]
         )
