@@ -1,4 +1,3 @@
-import uuid
 from datetime import datetime
 from enum import Enum
 
@@ -21,7 +20,7 @@ class Task():
                  creation_date=None,
                  _id=None
                  ):
-        self._id = str(uuid.uuid4()) if _id is None else _id
+        self._id = _id
         self._title = title
         self._desc = desc
         self._priority = priority

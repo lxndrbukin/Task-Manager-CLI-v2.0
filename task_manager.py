@@ -21,7 +21,8 @@ class TaskManager():
         return self.tasks
 
     def add_task(self, title, desc, priority, status):
-        task = Task(title, desc, priority, status)
+        max_id = max((task.id for task in self.tasks), default=0) + 1
+        task = Task(title, desc, priority, status, _id=max_id)
         self.tasks.append(task)
         self.save()
 
