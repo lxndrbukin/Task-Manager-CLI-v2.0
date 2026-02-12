@@ -2,14 +2,14 @@ from datetime import datetime
 from enum import Enum
 
 class Priority(Enum):
-    HIGH = "high"
-    MEDIUM = "medium"
-    LOW = "low"
+    HIGH = "High"
+    MEDIUM = "Medium"
+    LOW = "Low"
 
 class Status(Enum):
-    PENDING = "pending"
-    IN_PROGRESS = "in progress"
-    COMPLETED = "completed"
+    PENDING = "Pending"
+    IN_PROGRESS = "In Progress"
+    COMPLETED = "Completed"
 
 class Task():
     def __init__(self,

@@ -4,8 +4,8 @@ def get_enum_value(prompt, enum_class):
     valid_values = [e.value for e in enum_class]
     while True:
         value = input(f"{prompt} ({valid_values}):\n")
-        if value.lower() in valid_values:
-            return value
+        if value.lower() in [value.lower() for value in valid_values]:
+            return " ".join([word.title() for word in value.split()])
         print("Please enter a valid status")
 
 def print_tasks_table(tasks):

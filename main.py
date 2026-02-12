@@ -32,25 +32,31 @@ def main():
             tasks = manager.view_all()
             print_tasks_table(tasks)
         elif choice == "3":
-            task_id = input("Please enter the ID of the task you wish to delete:\n")
-            deleted = manager.delete_task(task_id)
-            if deleted:
-                print(f"Task with ID {task_id} has been deleted")
-            else:
-                print(f"Task with ID {task_id} was not found")
+            try:
+                task_id = int(input("Please enter the ID of the task you wish to delete:\n"))
+                deleted = manager.delete_task(task_id)
+                if deleted:
+                    print(f"Task with ID {task_id} has been deleted")
+                else:
+                    print(f"Task with ID {task_id} was not found")
+            except ValueError:
+                print("Invalid ID. Please enter a number.")
         elif choice == "4":
-            task_id = input("Please enter the ID of the task you wish to mark as completed:\n")
-            completed = manager.mark_complete(task_id)
-            if completed:
-                print(f"Task with ID {task_id} has been completed")
-            else:
-                print(f"Task with ID {task_id} was not found")
+            try:
+                task_id = int(input("Please enter the ID of the task you wish to mark as completed:\n"))
+                completed = manager.mark_complete(task_id)
+                if completed:
+                    print(f"Task with ID {task_id} has been completed")
+                else:
+                    print(f"Task with ID {task_id} was not found")
+            except ValueError:
+                print("Invalid ID. Please enter a number.")
         elif choice == "5":
-            status = input("Please enter the status:\n")
+            status = get_enum_value("Please enter the status", Status)
             tasks = manager.filter_by_status(status)
             print_tasks_table(tasks)
         elif choice == "6":
-            priority = input("Please enter the priority:\n")
+            priority = get_enum_value("Please enter the priority", Priority)
             tasks = manager.filter_by_priority(priority)
             print_tasks_table(tasks)
         elif choice == "7":
