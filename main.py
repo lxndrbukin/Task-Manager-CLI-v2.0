@@ -1,7 +1,6 @@
 from task_manager import TaskManager
 from task import Status, Priority
 from utils import get_enum_value, print_tasks_table
-from tabulate import tabulate
 
 def display_menu():
     print("\n=== TASK MANAGER ===")

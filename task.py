@@ -43,7 +43,7 @@ class Task():
     def priority(self, new_priority):
         try:
             valid_priority = Priority(new_priority)
-            self._priority = valid_priority
+            self._priority = valid_priority.value
         except ValueError:
             raise ValueError(f"{new_priority} is not valid: {[p.value for p in Priority]}")
     @property
