@@ -1,6 +1,6 @@
 from task_manager import TaskManager
 from task import Status, Priority
-from utils import get_enum_value
+from utils import get_enum_value, print_tasks_table
 from tabulate import tabulate
 
 def display_menu():
@@ -17,7 +17,6 @@ def display_menu():
 
 def main():
     manager = TaskManager("tasks.json")
-
     while True:
         display_menu()
         choice = input("\nEnter choice: ")
@@ -31,8 +30,7 @@ def main():
             print("New task created")
         elif choice == "2":
             tasks = manager.view_all()
-            data = [[task.id, task.title, task.desc, task.priority, task.status] for task in tasks]
-            print(tabulate(data, headers=["ID", "Title", "Description", "Priority", "Status"]))
+            print_tasks_table(tasks)
         elif choice == "3":
             task_id = input("Please enter the ID of the task you wish to delete:\n")
             deleted = manager.delete_task(task_id)
@@ -47,6 +45,14 @@ def main():
                 print(f"Task with ID {task_id} has been completed")
             else:
                 print(f"Task with ID {task_id} was not found")
+        elif choice == "5":
+            status = input("Please enter the status:\n")
+            tasks = manager.filter_by_status(status)
+            print_tasks_table(tasks)
+        elif choice == "6":
+            keyword = input("Please enter the search term:\n")
+            tasks = manager.search(keyword)
+            print_tasks_table(tasks)
         elif choice == "0":
             print("Goodbye!")
             break
