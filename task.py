@@ -2,9 +2,14 @@ import uuid
 from datetime import datetime
 from enum import Enum
 
+class Priority(Enum):
+    HIGH = "high"
+    MEDIUM = "medium"
+    LOW = "low"
+
 class Status(Enum):
     PENDING = "pending"
-    IN_PROGRESS = "in_progress"
+    IN_PROGRESS = "in progress"
     COMPLETED = "completed"
 
 class Task():
@@ -34,6 +39,13 @@ class Task():
     @property
     def priority(self) -> str:
         return self._priority
+    @priority.setter
+    def priority(self, new_priority):
+        try:
+            valid_priority = Priority(new_priority)
+            self._priority = valid_priority
+        except ValueError:
+            raise ValueError(f"{new_priority} is not valid: {[p.value for p in Priority]}")
     @property
     def status(self) -> str:
         return self._status
