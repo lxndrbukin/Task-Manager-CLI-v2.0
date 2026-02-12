@@ -45,6 +45,14 @@ class TaskManager():
     def filter_by_priority(self, priority):
         return [task for task in self.tasks if task.priority == priority]
 
+    def get_stats(self):
+        return {
+            "total": len(self.tasks),
+            "completed": len([task for task in self.tasks if task.status == Status.COMPLETED.value]),
+            "pending": len([task for task in self.tasks if task.status == Status.PENDING.value]),
+            "in_progress": len([task for task in self.tasks if task.status == Status.IN_PROGRESS.value])
+        }
+
     def search(self, keyword):
         keyword_lower = keyword.lower()
         return [
