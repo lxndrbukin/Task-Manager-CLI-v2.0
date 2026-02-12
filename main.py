@@ -49,6 +49,13 @@ def main():
                 print(f"Task with ID {task_id} has been deleted")
             else:
                 print(f"Task with ID {task_id} was not found")
+        elif choice == "4":
+            task_id = input("Please enter the ID of the task you wish to mark as completed:\n")
+            completed = manager.mark_complete(task_id)
+            if completed:
+                print(f"Task with ID {task_id} has been completed")
+            else:
+                print(f"Task with ID {task_id} was not found")
         elif choice == "0":
             print("Goodbye!")
             break
