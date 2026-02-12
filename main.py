@@ -1,6 +1,6 @@
 from task_manager import TaskManager
 from task import Status, Priority
-from utils import get_enum_value, print_tasks_table
+from utils import get_enum_value, print_tasks_table, print_stats
 
 def display_menu():
     print("\n=== TASK MANAGER ===")
@@ -9,8 +9,9 @@ def display_menu():
     print("3. Delete task")
     print("4. Mark complete")
     print("5. Filter by status")
-    print("6. Search")
-    print("7. Statistics")
+    print("6. Filter by priority")
+    print("7. Search")
+    print("8. Statistics")
     print("0. Exit")
 
 
@@ -49,9 +50,16 @@ def main():
             tasks = manager.filter_by_status(status)
             print_tasks_table(tasks)
         elif choice == "6":
+            priority = input("Please enter the priority:\n")
+            tasks = manager.filter_by_priority(priority)
+            print_tasks_table(tasks)
+        elif choice == "7":
             keyword = input("Please enter the search term:\n")
             tasks = manager.search(keyword)
             print_tasks_table(tasks)
+        elif choice == "8":
+            stats = manager.get_stats()
+            print_stats(stats)
         elif choice == "0":
             print("Goodbye!")
             break

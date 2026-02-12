@@ -12,3 +12,10 @@ def print_tasks_table(tasks):
     headers = ["ID", "Title", "Description", "Priority", "Status"]
     data = [[task.id, task.title, task.desc, task.priority, task.status] for task in tasks]
     print(tabulate(data, headers))
+
+def print_stats(stats):
+    print(f"\n=== STATISTICS ===")
+    print(f"Total tasks: {stats['total']}")
+    print(f"Completed: {stats['completed']}")
+    print(f"In Progress: {stats['in_progress']}")
+    print(f"Pending: {stats['pending']}")
