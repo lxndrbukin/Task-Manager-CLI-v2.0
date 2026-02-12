@@ -37,10 +37,18 @@ def main():
                 else:
                     break
             manager.add_task(title=title, desc=desc, priority=priority, status=status)
+            print("New task created")
         elif choice == "2":
             tasks = manager.view_all()
             data = [[task.id, task.title, task.desc, task.priority, task.status] for task in tasks]
             print(tabulate(data, headers=["ID", "Title", "Description", "Priority", "Status"]))
+        elif choice == "3":
+            task_id = input("Please enter the ID of the task you wish to delete:\n")
+            deleted = manager.delete_task(task_id)
+            if deleted:
+                print(f"Task with ID {task_id} has been deleted")
+            else:
+                print(f"Task with ID {task_id} was not found")
         elif choice == "0":
             print("Goodbye!")
             break
