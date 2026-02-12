@@ -1,5 +1,6 @@
 from task_manager import TaskManager
 from task import Status, Priority
+from utils import get_enum_value
 from tabulate import tabulate
 
 def display_menu():
@@ -24,18 +25,8 @@ def main():
         if choice == "1":
             title = input("Please enter the title:\n")
             desc = input("Please enter any additional information/description:\n")
-            while True:
-                priority = input(f"Please enter the priority for this task ({[p.value for p in Priority]}):\n")
-                if priority.lower() not in [p.value for p in Priority]:
-                    print("Please enter a valid priority")
-                else:
-                    break
-            while True:
-                status = input(f"Please enter the status ({[s.value for s in Status]}):\n")
-                if status.lower() not in [s.value for s in Status]:
-                    print("Please enter a valid status")
-                else:
-                    break
+            priority = get_enum_value("Please enter the priority", Priority)
+            status = get_enum_value("Please enter the status", Status)
             manager.add_task(title=title, desc=desc, priority=priority, status=status)
             print("New task created")
         elif choice == "2":
