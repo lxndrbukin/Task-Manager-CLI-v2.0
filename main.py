@@ -1,6 +1,7 @@
 from task_manager import TaskManager
 from task import Status, Priority
 from utils import get_enum_value, print_tasks_table, print_stats
+from config import create_config, save_config, load_config, check_config
 
 def display_menu():
     print("\n=== TASK MANAGER ===")
@@ -12,11 +13,21 @@ def display_menu():
     print("6. Filter by priority")
     print("7. Search")
     print("8. Statistics")
+    print("9. Settings")
     print("0. Exit")
+
+def settings_menu():
+    print("\n=== TASK MANAGER SETTINGS ===")
+    print("1. Update storage path")
+    print("2. Enable/Update AI")
+    print("0. Exit settings")
 
 
 def main():
-    manager = TaskManager("tasks.json")
+    if not check_config():
+        save_config(create_config())
+    config = load_config()
+    manager = TaskManager(config["main"]["storage"])
     while True:
         display_menu()
         choice = input("\nEnter choice: ")
@@ -66,6 +77,25 @@ def main():
         elif choice == "8":
             stats = manager.get_stats()
             print_stats(stats)
+        elif choice == "9":
+            config = load_config()
+            settings_menu()
+            while True:
+                setting_choice = input("\nSelect an option:\n")
+                if setting_choice == "1":
+                    config["main"]["storage"] = input("Provide new path for task storage:\n")
+                    save_config(config)
+                    print("\nConfig updated")
+                    config = load_config()
+                    manager = TaskManager(config["main"]["storage"])
+                elif setting_choice == "2":
+                    config["ai"]["provider"] = input("Enter the AI model provider (Anthropic, xAI, OpenAI):\n").lower()
+                    config["ai"]["model"] = input("Enter the desired AI model (e.g. gpt-3.5-turbo, grok-3-mini, claude-opus-4-6):\n").lower()
+                    config["ai"]["api_key"] = input("Enter the API key for your chosen provider:\n")
+                    print("\nConfig updated")
+                    save_config(config)
+                elif setting_choice == "0":
+                    break
         elif choice == "0":
             print("Goodbye!")
             break
