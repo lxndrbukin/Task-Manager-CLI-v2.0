@@ -2,6 +2,7 @@ from task_manager import TaskManager
 from task import Status, Priority
 from utils import get_enum_value, print_tasks_table, print_stats
 from config import create_config, save_config, load_config, check_config
+from ai.ai_helper import extract_task_from_text
 
 def display_menu():
     print("\n=== TASK MANAGER ===")
@@ -31,14 +32,40 @@ def main():
     while True:
         display_menu()
         choice = input("\nEnter choice: ")
-
         if choice == "1":
-            title = input("Please enter the title:\n")
-            desc = input("Please enter any additional information/description:\n")
-            priority = get_enum_value("Please enter the priority", Priority)
-            status = get_enum_value("Please enter the status", Status)
-            manager.add_task(title=title, desc=desc, priority=priority, status=status)
-            print("New task created")
+            if config["ai"]["enabled"]:
+                use_ai = input("Use AI to create task from description? (y/n): ").lower()
+                if use_ai == "y":
+                    user_input = input("Describe your task in natural language:\n")
+                    task_data = extract_task_from_text(user_input, config)
+
+                    if task_data:
+                        print(f"\nAI extracted:")
+                        print(f"Title: {task_data["title"]}")
+                        print(f"Description: {task_data["desc"]}")
+                        print(f"Priority: {task_data["priority"]}")
+                        print(f"Status: {task_data["status"]}")
+
+                        confirm = input("\nCreate this task? (y/n): ").lower()
+                        if confirm == "y":
+                            manager.add_task(
+                                title=task_data["title"],
+                                desc=task_data["desc"],
+                                priority=task_data["priority"],
+                                status=task_data["status"]
+                            )
+                            print("Task created with AI!")
+                        else:
+                            print("Task cancelled")
+                    else:
+                        print("AI extraction failed. Please try again or use manual entry.")
+            else:
+                title = input("Please enter the title:\n")
+                desc = input("Please enter any additional information/description:\n")
+                priority = get_enum_value("Please enter the priority", Priority)
+                status = get_enum_value("Please enter the status", Status)
+                manager.add_task(title=title, desc=desc, priority=priority, status=status)
+                print("New task created")
         elif choice == "2":
             tasks = manager.view_all()
             print_tasks_table(tasks)
