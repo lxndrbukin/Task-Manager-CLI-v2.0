@@ -1,4 +1,5 @@
 from ai.claude import claude_client
+from ai.gpt import gpt_client
 import json
 
 def clean_json_response(text):
@@ -32,12 +33,13 @@ def extract_task_from_text(user_input, config):
 
         if config["ai"]["provider"] == "anthropic":
             message = claude_client(prompt, config)
-            response_text = message.content[0].text
+        elif config["ai"]["provider"] == "openai":
+            message = gpt_client(prompt, config)
         else:
             print(f"Unsupported AI provider: {config['ai']['provider']}")
             return None
 
-        task_data = json.loads(clean_json_response(response_text))
+        task_data = json.loads(clean_json_response(message))
 
         required_fields = ["title", "desc", "priority", "status"]
         if all(field in task_data for field in required_fields):
