@@ -33,6 +33,7 @@ def main():
         display_menu()
         choice = input("\nEnter choice: ")
         if choice == "1":
+            task_created = False
             if config["ai"]["enabled"]:
                 use_ai = input("Use AI to create task from description? (y/n): ").lower()
                 if use_ai == "y":
@@ -55,11 +56,12 @@ def main():
                                 status=task_data["status"]
                             )
                             print("Task created with AI!")
+                            task_created = True
                         else:
                             print("Task cancelled")
                     else:
                         print("AI extraction failed. Please try again or use manual entry.")
-            else:
+            if not task_created:
                 title = input("Please enter the title:\n")
                 desc = input("Please enter any additional information/description:\n")
                 priority = get_enum_value("Please enter the priority", Priority)
