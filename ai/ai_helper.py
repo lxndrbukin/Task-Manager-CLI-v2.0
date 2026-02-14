@@ -1,5 +1,6 @@
 from ai.claude import claude_client
 from ai.gpt import gpt_client
+from ai.grok import grok_client
 import json
 
 def clean_json_response(text):
@@ -34,9 +35,11 @@ def extract_task_from_text(user_input, config):
         if config["ai"]["provider"] == "anthropic":
             message = claude_client(prompt, config)
         elif config["ai"]["provider"] == "openai":
-            message = gpt_client(prompt, config)
+            message = gpt_client(prompt, config)        
+        elif config["ai"]["provider"] == "xai":
+            message = grok_client(prompt, config)
         else:
-            print(f"Unsupported AI provider: {config['ai']['provider']}")
+            print(f"Unsupported AI provider: {config["ai"]["provider"]}")
             return None
 
         task_data = json.loads(clean_json_response(message))
