@@ -5,7 +5,7 @@ def gpt_client(prompt, config):
 
     message = client.chat.completions.create(
         model=config["ai"]["model"],
-        max_tokens=500,
+        max_completion_tokens=500,
         messages=[{"role": "user", "content": prompt}],
     )
     return message.choices[0].message.content
